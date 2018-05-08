@@ -44,7 +44,7 @@ type SmartContract struct {
 
 // Define the car structure, with 4 properties.  Structure tags are used by encoding/json library
 type Peer struct {
-	Value  			int 	 `json:"value"`
+	Value  			float64 	 `json:"value"`
 }
 
 /*
@@ -144,13 +144,15 @@ func (s *SmartContract) transaction(APIstub shim.ChaincodeStubInterface, args []
 		peerAsBytes2, _ := APIstub.GetState(args[1])
 		peer2 := Peer{}
 
-		valor , _ := strconv.Atoi(args[2])
+		valor , _ := strconv.ParseFloat(args[2],64)
 
 		json.Unmarshal(peerAsBytes1, &peer1)
-		if peer1.Value > valor{
+		if valor < 0.0000000001{
+			return shim.Error("Quantia não suportada Min:0.0000000001")
+		} else if peer1.Value > valor{
 			peer1.Value -= valor
 		} else {
-			return shim.Error("Saldo insuficiente")
+		  return shim.Error("Saldo insuficiente")
 		}
 
 		json.Unmarshal(peerAsBytes2, &peer2)
