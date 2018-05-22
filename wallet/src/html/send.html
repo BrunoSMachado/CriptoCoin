@@ -1,0 +1,25 @@
+<template>
+    <section class="section" id="section-send">
+        <div class="div-title">
+            <h2 class="title">Send TurtleCoin</h2>
+        </div>
+        <div class="div-send-fields">
+            <h4 class="text-spaced">Address</h4>
+            <input class="text-block" id="input-send-address"
+
+            <div class="div-send-amount">
+                <h4 class="text-spaced">Amount</h4>
+                <input class="text-block" id="input-send-amount"></input>
+            </div>
+            <span class="text-spaced-error" id="text-send-error"></span>
+            <span class="text-spaced-success" id="text-send-success"></span>
+        </div>
+        <div class="div-buttons">
+            <button type="button" class="button-green" id="button-send-send">Send</button>
+            <button type="button" class="button-red" data-section="section-overview" id="button-send-back">Cancel</button>
+        </div>
+
+        <script defer src="https://use.fontawesome.com/releases/v5.0.4/js/all.js"></script>
+        <script>require('../js/send.js')</script>
+    </section>
+</template>
