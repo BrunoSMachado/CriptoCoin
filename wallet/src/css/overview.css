@@ -1,15 +1,14 @@
 /* Address */
 .div-overview-address {
     position: relative;
-    top: 15px;
+    top: 25px;
     left: 5%;
-    width: 100%;
+    width: 85%;
 }
 
-#wallet-address {
-    font-size: 0.75em;
-    bottom: 15px;
-    width: 100%;
+#wallet-adress {
+  width: 100%;
+  padding: 17px 20%;
 }
 
 /* Balance */

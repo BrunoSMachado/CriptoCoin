@@ -41,28 +41,28 @@
 
 .text-spaced-bold {
     letter-spacing: 1px;
-    font-weight: bold; 
+    font-weight: bold;
     text-shadow: 1px 2px #000000;
 }
 
 .text-spaced-error {
     letter-spacing: 1px;
-    color: #ff0000; 
-    font-weight: bold; 
+    color: #ff0000;
+    font-weight: bold;
     text-shadow: 1px 2px #000000;
 }
 
 .text-spaced-warning {
     letter-spacing: 1px;
-    color: #fffb00; 
-    font-weight: bold; 
+    color: #fffb00;
+    font-weight: bold;
     text-shadow: 1px 2px #000000;
 }
 
 .text-spaced-success {
     letter-spacing: 1px;
-    color: #79ff2c; 
-    font-weight: bold; 
+    color: #79ff2c;
+    font-weight: bold;
     text-shadow: 1px 2px #000000;
 }
 
@@ -158,7 +158,7 @@
     text-align: center;
     padding: 5px 0;
     border-radius: 6px;
-    
+
     /* Position the tooltip text - see examples below! */
     position: absolute;
     z-index: 1;
@@ -196,7 +196,7 @@
     height: 95%;
     min-width: 800px; /* maybe 800px is too much? */
     min-height: 400px;
-  
+
     /* Hidden by default */
     pointer-events: none;
     visibility: hidden;
@@ -204,7 +204,7 @@
     transform: translateY(35px);
     transition: visibility 0s .12s linear , opacity .12s ease-in, transform .12s ease-in;
   }
-  
+
 .section.is-shown {
     pointer-events: auto;
     visibility: visible;
@@ -263,7 +263,7 @@
     opacity: 0;
     cursor: pointer;
 }
-  
+
 .checkmark {
     position: absolute;
     top: 0;
@@ -275,25 +275,25 @@
     border: 2px solid #212721;
     transition: background-color 0.2s;
 }
-  
+
 .checkbox-container:hover input ~ .checkmark {
     background-color: #99ceb1;
 }
-  
+
 .checkbox-container input:checked ~ .checkmark {
     background-color: #00632e;
 }
-  
+
 .checkmark:after {
     content: "";
     position: absolute;
     display: none;
 }
-  
+
 .checkbox-container input:checked ~ .checkmark:after {
     display: block;
 }
-  
+
 .checkbox-container .checkmark:after {
     left: 7.5px;
     top: 3.5px;
@@ -302,7 +302,7 @@
     border: solid white;
     border-width: 0 3px 3px 0;
     transform: rotate(45deg);
-} 
+}
 
 /* Combo Box */
 .combo {

@@ -1,2 +1,5 @@
 *_sk
 *.key
+*.pub
+*-priv
+*-pub

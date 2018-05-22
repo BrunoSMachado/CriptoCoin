@@ -6,11 +6,11 @@
     width: 90%;
 }
 
-#input-load-path {
+#input-load-public {
     display: inline;
     font-size: 0.88em;
     bottom: 5px;
-    width: 90%;
+    width: 100%;
 }
 
 #button-load-browse {
