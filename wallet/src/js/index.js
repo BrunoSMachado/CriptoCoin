@@ -54,28 +54,7 @@ restoreButton.addEventListener('click', function(event) {
 })
 
 closeButton.addEventListener('click', function(event) {
-    let savePanelUrl = url.format({
-        pathname: path.join(__dirname, '../html/save-panel.html'),
-        protocol: 'file:',
-        slashes: true
-    })
-    let win = new BrowserWindow({ 
-        frame: false, 
-        width: 150, 
-        height: 60,
-        parent: remote.getCurrentWindow()
-    })
-    win.loadURL(savePanelUrl)
-    win.show()
-
-    // once walletd finishes saving, close the application
-    connection.createRequest('save', {}, function() {
-        window.close()
-    }, function() {
-        // if the request fails, also close since this may happen
-        // if no wallet was loaded
-        window.close()
-    })
+    window.close()
 })
 
 /* ****************** */
@@ -87,41 +66,7 @@ const syncCountText = document.getElementById('navbar-text-sync-count')
 const syncSlash = document.getElementById('navbar-text-sync-slash')
 const syncKnownText= document.getElementById('navbar-text-sync-known')
 
-connection.addRequest(function (isRunning) {
-    // the icon has to be declared here or else it won't work
-    const iconSync = document.getElementById('navbar-icon-sync')
-    if (isRunning) {
-        // retrieve the status from walletd
-        connection.createRequest('getStatus', {}, function(response) {
-            const result = response.result
-            let blockCount = result['blockCount']
-            let knownBlockCount = result['knownBlockCount']
-            syncCountText.innerHTML = blockCount
-            syncSlash.innerHTML = ' / '
-            syncKnownText.innerHTML = knownBlockCount
 
-            if(blockCount + 1 >= knownBlockCount && knownBlockCount != 0) {
-                syncDiv.style = 'color: #79ff2c;'
-                syncText.innerHTML = 'SYNCED '
-                iconSync.setAttribute('data-icon', 'check')
-                iconSync.classList.remove('fa-spin')
-            } else {
-                syncDiv.style = 'color: #fffb00;'
-                syncText.innerHTML = 'SYNCING '
-                iconSync.setAttribute('data-icon', 'sync')
-                iconSync.classList.add('fa-spin')
-            }
-        })
-    } else {
-        syncDiv.style = 'color: #ff0000;'
-        syncText.innerHTML = 'NOT SYNCED'
-        syncCountText.innerHTML = ''
-        syncKnownText.innerHTML = ''
-        syncSlash.innerHTML = ''
-        iconSync.setAttribute('data-icon', 'times')
-        iconSync.classList.remove('fa-spin')
-    }
-})
 
 /* ****************** */
 /*      SECTIONS      */

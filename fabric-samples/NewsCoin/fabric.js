@@ -20,7 +20,6 @@ channel.addOrderer(order);
 
 var member_user = null;
 var store_path = path.join(__dirname, 'hfc-key-store');
-console.log('Store path:'+store_path);
 var tx_id = null;
 
 function query(pub){
@@ -349,4 +348,8 @@ function getValue(pub){
     console.log(value);
   }, (500));
   return value;
+}
+
+function um(){
+  return 1;
 }
