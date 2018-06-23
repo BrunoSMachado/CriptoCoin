@@ -1,5 +1,4 @@
 const remote = require('electron').remote
-const connection = require('./connection.js')
 const dialog = remote.dialog
 const settings = require('electron-settings')
 

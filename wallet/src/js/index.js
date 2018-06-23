@@ -1,6 +1,5 @@
 const electron = require('electron')
 const remote = electron.remote
-const connection = require('./connection.js')
 const BrowserWindow = remote.BrowserWindow
 const path = require('path')
 const url = require('url')

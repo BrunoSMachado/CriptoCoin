@@ -1,6 +1,5 @@
 const remote = require('electron').remote
 const dialog = remote.dialog
-const connection = require('./connection.js')
 
 const browseButton = document.getElementById('button-create-browse')
 const createButton = document.getElementById('button-create-create')
@@ -30,5 +29,4 @@ createButton.addEventListener('click', function (event) {
         textSuccess.innerHTML = ''
     }
 
-    connection.createWallet(folderPath.value, walletName.value, walletPassword.value, onFailure, onSuccess)
 })

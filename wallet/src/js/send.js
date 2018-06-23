@@ -1,7 +1,6 @@
 'use strict';
 
 const remote = require('electron').remote
-const connection = require('./connection.js')
 
 const sendAddress = document.getElementById('input-send-address')
 const sendAmount = document.getElementById('input-send-amount')

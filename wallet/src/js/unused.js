@@ -3,12 +3,12 @@ I'll keep them here so I know where to grab them if I ever need them again. */
 
 /* is running
 This function will evaluate to true or false if wether certain exe is running with a given name.
-I actually found this thing on the internet, I modified it a little bit. What it does is it 
+I actually found this thing on the internet, I modified it a little bit. What it does is it
 calls a process which depends of the operative system installed that returns a list of the
 programs that are running. I am not sure if this is the best way to do this, however it seems that
 node.js has no "built-in" way of telling if a program is running with a given name.
 There is a npm package called ps-node which contains functions to manipulate everythign related to
-other processes, I tried it but the execution time of the function was way too much. Either I was 
+other processes, I tried it but the execution time of the function was way too much. Either I was
 doing something wrong or the package just behaves like that.
 A problem I have with this is that I never used Linux nor "darwin" so I lack the means to test this.*/
 function isRunning(win, mac, linux) {
