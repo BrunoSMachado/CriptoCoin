@@ -1,14 +1,8 @@
-'use strict';
-
 var Fabric_Client = require('fabric-client');
 var path = require('path');
 var util = require('util');
-var os = require('os');
 var fs = require('fs');
 
-var value = 0;
-
-//
 var fabric_client = new Fabric_Client();
 
 // setup the fabric network
@@ -71,7 +65,7 @@ function query(pub){
 		       console.log("No payloads were returned from query");
 	     }
     }).catch((err) => {
-	     console.error('Failed to query successfully :: ' + err);
+
     });
 }
 
@@ -345,7 +339,6 @@ function transaction(peer1, peer2, amount){
 function getValue(pub){
   query(pub);
   setTimeout(function() {
-    console.log(value);
   }, (500));
   return value;
 }
@@ -353,3 +346,5 @@ function getValue(pub){
 function um(){
   return 1;
 }
+
+console.log(getValue("MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCcmtaOSBALW50YeLBL4JdQUDyIyFnXoHnM2SaOrREVJVvSERthaCdZKRkpGNDB5yBdENf+NI9KCSkBdVK5Zj0QR8GDMxGwwPZcnLDeT+tNxpSnPRneJ8vvpiXO3FlWsPOeVhg6Mtz+qernMs/MNC5eV8TImnu9i4Yg0TMFqBGWQQIDAQAB"))
