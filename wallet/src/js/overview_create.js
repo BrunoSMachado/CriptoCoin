@@ -1,3 +1,4 @@
+const execFile = require('child_process').execFile;
 const remote = require('electron').remote
 const dialog = remote.dialog
 
@@ -7,8 +8,10 @@ const textSuccess = document.getElementById('text-create-success')
 const textError = document.getElementById('text-create-error')
 
 const folderPath = document.getElementById('input-create-path')
-const walletName = document.getElementById('input-create-name')
+const pub = document.getElementById('input-create-name')
 const walletPassword = document.getElementById('input-create-password')
+
+var x;
 
 browseButton.addEventListener('click', function(event) {
     dialog.showOpenDialog({properties: ['openDirectory']}, function (files) {
@@ -19,14 +22,14 @@ browseButton.addEventListener('click', function(event) {
 })
 
 createButton.addEventListener('click', function (event) {
-    function onSuccess() {
-        textError.innerHTML = ''
-        textSuccess.innerHTML = 'File generated successfully! Load it in order to start using it.'
-    }
 
-    function onFailure(message) {
-        textError.innerHTML = message
-        textSuccess.innerHTML = ''
-    }
+    x = pub.value;
+    const child = execFile('node',['../fabric-samples/NewsCoin/newPeer.js', x], (error, stdout, stderr) => {
+        if (error) {
+            console.error('stderr', stderr);
+            throw error;
+        }
+        console.log(stdout);
+    });
 
-})
+});

@@ -1,4 +1,3 @@
-const remote = require('electron').remote
 const fs = require('fs')
 
 const public_key = document.getElementById('input-load-public')
@@ -10,6 +9,9 @@ const successText = document.getElementById('text-load-success')
 loadButton.addEventListener('click', function (event) {
 
     chave = public_key.value;
+    fs.writeFile('chave.pub', chave ,function(err){
+      if (err) throw err;
+    });
     document.getElementById("text-load-success").innerHTML = "Chave carregada ...";
 
 });

@@ -335,16 +335,3 @@ function transaction(peer1, peer2, amount){
     	console.error('Failed to invoke successfully :: ' + err);
     });
 }
-
-function getValue(pub){
-  query(pub);
-  setTimeout(function() {
-  }, (500));
-  return value;
-}
-
-function um(){
-  return 1;
-}
-
-console.log(getValue("MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCcmtaOSBALW50YeLBL4JdQUDyIyFnXoHnM2SaOrREVJVvSERthaCdZKRkpGNDB5yBdENf+NI9KCSkBdVK5Zj0QR8GDMxGwwPZcnLDeT+tNxpSnPRneJ8vvpiXO3FlWsPOeVhg6Mtz+qernMs/MNC5eV8TImnu9i4Yg0TMFqBGWQQIDAQAB"))
