@@ -35,5 +35,6 @@ docker exec -e "CORE_PEER_LOCALMSPID=Org1MSP" -e "CORE_PEER_MSPCONFIGPATH=/opt/g
 cd ../NewsCoin
 node enrollAdmin.js
 node registerUser.js
+chown -R axemaxine hfc-key-store
 
 printf "\nTotal setup execution time : $(($(date +%s) - starttime)) secs ...\n\n\n"
