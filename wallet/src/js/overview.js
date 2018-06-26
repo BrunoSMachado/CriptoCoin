@@ -4,31 +4,36 @@ const settings = require('electron-settings');
 const electron = require('electron');
 const path = require('path');
 const teste = require('./connection.js');
-const load = require('./overview_load');
 
-var temp;
-var valor = 0;
+function refreshA(){
+	setTimeout( function() {
+	  $.get('../../chave.pub', function(data){
+      teste.query(data)
+      $('#wallet-adress').text(data)
+    });
+	  refreshA();
+	}, 10000);
+};
 
-function atualiza(){
+function refreshB(){
+	setTimeout( function() {
+    $.get('../../balance.txt', function(data) {
+      $('#balance-available').text(data.slice(9,-1));
+    });
+		refreshB();
+	}, 10000);
+};
 
-	fs.readFile('chave.pub', 'utf-8', function (err,data){
-		if(err){
-			console.log("Ocorreu um erro a ler a chave pública");
-		}
+$(document).ready( function(){
+	$.get('../../balance.txt', function(data) {
+    $('#balance-available').text(data.slice(9,-1));
+  });
+	refreshB();
+});
 
-		document.getElementById("wallet-adress").innerHTML = data;
-
-	});
-
-	setTimeout(function() {
-	}, (500));
-	fs.readFile('balance', 'utf-8', function (err,data){
-		if(err){
-			console.log("Ocorreu um erro a ler o balanço")
-		}
-	temp = data.slice(9,-1);
-	document.getElementById("balance-available").innerHTML = temp;
-	})
-}
-
-atualiza();
+$(document).ready( function(){
+  $.get('../../chave.pub', function(data){
+    $('#wallet-adress').text(data)
+  });
+	refreshA();
+});

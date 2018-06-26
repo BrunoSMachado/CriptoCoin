@@ -3,11 +3,11 @@
         <div class="div-overview-address">
             <h2>Your wallet's address:</h2>
             <h4 class="text-spaced">Chave Pública</h4>
-            <h4 class="text-block" id="wallet-adress">
+            <h4 name="wallet-adress" class="text-block" id="wallet-adress">
         </div>
         <div class="div-overview-balance">
             <h2>Balance:</h2>
-            <h4 class="text-block" id="balance-available">
+            <h4 name="balance-available" class="text-block" id="balance-available">
                 <i class="fas fa-unlock-alt"></i>
                 <span style="float: right;">0.00</span>
             </h4>
@@ -16,6 +16,7 @@
             <button type="button" class="button-green" data-section="section-overview-load" id="button-overview-loadwallet">Load wallet</button>
             <button type="button" class="button-green" data-section="section-overview-create" id="button-overview-createwallet">Create Wallet</button>
         </div>
+        <script> window.$ = window.jQuery = require("jquery")</script>
         <script>require('../js/overview.js')</script>
     </section>
 </template>

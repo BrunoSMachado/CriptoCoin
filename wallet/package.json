@@ -11,11 +11,12 @@
   "license": "ISC",
   "devDependencies": {
     "electron": "^1.8.4"
-
   },
   "dependencies": {
     "electron-settings": "^3.1.4",
     "fabric-client": "^1.0.8",
-    "jayson": "^2.0.5"
+    "jayson": "^2.0.5",
+    "jquery": "^3.3.1",
+    "jsdom": "^11.11.0"
   }
 }
