@@ -8,6 +8,7 @@
 const shim = require('fabric-shim');
 const util = require('util');
 const crypto = require('crypto');
+const fs = require('fs')
 
 let Chaincode = class {
 
@@ -65,7 +66,7 @@ let Chaincode = class {
       '4n8TU7LixWkzPyfPdhuCcMCvSEU7v1caDdYyYmZwz8Nk19fptPyn90t6FH6aHx2MYH0ARTM5\n'+
       'cTs3kc0huUEDukPRjho97lHf2n5F2SChW7GdC21fH2Ix/Fj2UlAe8HgzD2iYnwkDfKVPUhGb\n'+
       'wK4uj9K+IA/6Ftnom8oAexuJAWwyktqUyaoSqTrZFSM4+26mTLbcTveVB8UVCvOrkwIDAQAB\n'+
-      '-----END RSA PUBLIC KEY-----'
+      '-----END RSA PUBLIC KEY-----\n'
     });
     peers.push({
       value: '500000000',
@@ -75,7 +76,7 @@ let Chaincode = class {
       '2X57XMxxCpIU8K5EEczc+nDxY2zuVGbCXlqtH+6/VIGDHovlHveVKmyT9wAn4E/Uv2HVOxcK\n'+
       'TnKGHtpcN3kjkzX0vs6NAGJqNixpp5fcQ8vxDUtlMLr2Kco+g6hzq72sRQIdgxOkpNt8B51Z\n'+
       '1/JbtKkaMyxuZRdwzHk/0flFAk/RmdJFloiyEnhCj0wp5pSGe3G36syCxCPfmD5FGQIDAQAB\n'+
-      '-----END RSA PUBLIC KEY-----'
+      '-----END RSA PUBLIC KEY-----\n'
     });
 
       await stub.putState('MIIBCgKCAQEAhF6963IwAP8g2E7MC5Fr9yMQVkiuTFf5VT16pW4fhYcJtLEWw7N8BuS7GKVR'+
@@ -115,29 +116,31 @@ let Chaincode = class {
       throw new Error('Incorrect number of arguments. Expecting 4');
     }
 
-    let signature = args[3]
+    let peerAsBytes1 = await stub.getState(args[0]);
+    let peer1 = JSON.parse(peerAsBytes1);
+
+    let peerAsBytes2 = await stub.getState(args[1]);
+    let peer2 = JSON.parse(peerAsBytes2);
+
+    let signature = args[3];
 
     const verify = crypto.createVerify('SHA256');
     verify.write(peer1.public_key);
     verify.end();
 
-    if(verify.verify(peer1.public_key,signature)){
-      throw new Error('Assinatura não verificada')
+    if(verify.verify(peer1.public_key,signature,'base64') == false){
+        throw new Error('Assinatura não verificada'+ signature)
     }
 
-    let peerAsBytes1 = await stub.getState(args[0]);
-    let peer1 = JSON.parse(peerAsBytes1);
-    if(peer1.value < args[2]){
-      throw new Error('Balanço insuficiente');
+    if(parseFloat(peer1.value) < args[2]){
+      throw new Error('Balanço insuficiente' + peer1.value);
     }
-    if(args[2] < 0.0000000001){
+    if(parseFloat(args[2]) < 0.0000000001){
       throw new Error('Transferência não suportada: valor demasiado pequeno');
     }
-    peer1.value -= args[2];
+    peer1.value = parseFloat(peer1.value) - parseFloat(args[2]);
 
-    let peerAsBytes2 = await stub.getState(args[1]);
-    let peer2 = JSON.parse(peerAsBytes2);
-    peer2.value += args[2];
+    peer2.value = parseFloat(peer2.value) + parseFloat(args[2]);
 
     await stub.putState(args[0], Buffer.from(JSON.stringify(peer1)));
     await stub.putState(args[1], Buffer.from(JSON.stringify(peer2)));

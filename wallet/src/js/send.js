@@ -1,5 +1,6 @@
 const execFile = require('child_process').execFile;
 const fs = require('fs');
+const crypto = require('crypto');
 
 const button = document.getElementById('button-send-send')
 const adress = document.getElementById('input-send-address')
@@ -15,19 +16,28 @@ var assinatura;
 button.addEventListener('click', function (event) {
 
     adr1 = fs.readFileSync('chave.pub','utf8');
-    let temp = adr1.slice(31)
-    let key = temp.substring(0,145)
-    let nova = key.substring(0,72) + key.substring(73,145)
-    adr2 = adress.value;
-    value = amount.value;
     priv = fs.readFileSync('chave.priv','utf8');
 
-    const crypto = require('crypto');
+    let temp = adr1.slice(31);
+    let key = temp.substring(0,145);
+    let nova = key.substring(0,72) + key.substring(73,145);
+    adr2 = adress.value;
+    value = amount.value;
+
+
     const sign = crypto.createSign('SHA256');
 
     sign.update(adr1);
 
-    assinatura = sign.sign(priv,'hex');
+    assinatura = sign.sign(priv,'base64');
+
+    const verify = crypto.createVerify('SHA256');
+
+    verify.write(adr1);
+    verify.end();
+
+    console.log(verify.verify(adr1, assinatura, 'base64'));
+
 
     const child = execFile('node',['../fabric-samples/NewsCoin/transaction.js', nova, adr2, value, assinatura], (error, stdout, stderr) => {
         if (error) {

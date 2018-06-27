@@ -7,8 +7,10 @@
 }
 
 #wallet-adress {
+  padding: 12px 8px;
+  font-size: 0.8em;
+  bottom: 5px;
   width: 100%;
-  padding: 17px 20%;
 }
 
 /* Balance */
