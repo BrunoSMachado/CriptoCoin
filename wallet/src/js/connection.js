@@ -55,10 +55,10 @@ function query(pub){
 		       if (query_responses[0] instanceof Error) {
 			          console.error("error from query = ", query_responses[0]);
 		       } else {
-                fs.writeFile('balance.txt', query_responses[0].toString(), function(err){
+                fs.writeFile('balance.txt', JSON.parse(query_responses[0].toString())["value"], function(err){
                   if (err) throw err;
                 });
-                console.log("Response is ", query_responses[0].toString());
+                console.log("Response is ", JSON.parse(query_responses[0].toString())["value"]);
 		       }
 	     } else {
 		       console.log("No payloads were returned from query");

@@ -62,7 +62,7 @@ Fabric_Client.newDefaultKeyValueStore({ path: store_path
 		//targets: let default to the peer assigned to the client
 		chaincodeId: 'NewsCoin',
 		fcn: 'transaction',
-		args: [process.argv[2],process.argv[3],process.argv[4]],
+		args: [process.argv[2],process.argv[3],process.argv[4],process.argv[5]],
 		chainId: 'mychannel',
 		txId: tx_id
 	};

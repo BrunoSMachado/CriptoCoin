@@ -17,17 +17,15 @@ createButton.addEventListener('click', function (event) {
     fs.writeFileSync('chave.priv', pair.private,'utf8');
     fs.writeFileSync('chave.pub', pair.public,'utf8');
 
-    console.log('MIIBCgKCAQEAhF6963IwAP8g2E7MC5Fr9yMQVkiuTFf5VT16pW4fhYcJtLEWw7N8BuS7GKVR84vtJUsbNlgtbCpVnk8adS4DavtQvUdzBcBzIhpduUlP4iFQyIgpQN8yNAcXCiYbd0alTVxL'.length)
-    console.log('MIIBCgKCAQEApq/4WP31aFm3kgl2CgIJwDugpi3XgLHstPdVnAzPKIZuSJWinUdaXRo4i8K7hHW4VJf/wrhRqv57gg0E6nbnD/RFuw/8cdjrjj2+NOuA7Iz8k3Dwq1bR7/IqDIM/Hxp8RzT9'.length)
+    let path = '../../wallet/chave.pub'
 
     textSuccess.innerHTML = "Criadas chaves com sucesso"
-/*
-    const child = execFile('node',['../fabric-samples/NewsCoin/newPeer.js', x], (error, stdout, stderr) => {
+
+    const child = execFile('node',['../fabric-samples/NewsCoin/newPeer.js', path], (error, stdout, stderr) => {
         if (error) {
             console.error('stderr', stderr);
             throw error;
         }
         console.log(stdout);
     });
-*/
 });

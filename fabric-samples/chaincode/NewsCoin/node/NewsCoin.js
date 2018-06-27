@@ -50,8 +50,8 @@ let Chaincode = class {
       throw new Error(peer + ' does not exist: ');
     }
     console.log(peerAsBytes.toString());
-    let p = JSON.parse(peerAsBytes)
-    return p.value.toString();
+    console.log(peerAsBytes + "-------------");
+    return peerAsBytes
   }
 
   async initLedger(stub, args) {
@@ -84,7 +84,7 @@ let Chaincode = class {
 
       await stub.putState('MIIBCgKCAQEApq/4WP31aFm3kgl2CgIJwDugpi3XgLHstPdVnAzPKIZuSJWinUdaXRo4i8K7'+
       'hHW4VJf/wrhRqv57gg0E6nbnD/RFuw/8cdjrjj2+NOuA7Iz8k3Dwq1bR7/IqDIM/Hxp8RzT9'
-      , Buffer.from(JSON.stringify(peers[0])));
+      , Buffer.from(JSON.stringify(peers[1])));
 
     console.info('============= END : Initialize Ledger ===========');
   }
@@ -101,8 +101,10 @@ let Chaincode = class {
       public_key: args[0],
     };
 
-    var temp = args[0].slice(31)
-    await stub.putState(temp.substring(0,144), Buffer.from(JSON.stringify(peer)));
+    var temp = args[0].slice(31);
+    let key = temp.substring(0,145);
+    let nova = key.substring(0,72) + key.substring(73,145);
+    await stub.putState(nova, Buffer.from(JSON.stringify(peer)));
     console.info('============= END : Create Peer ===========');
   }
 

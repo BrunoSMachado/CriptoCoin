@@ -6,23 +6,32 @@
     width: 90%;
 }
 
-#input-load-public {
+#input-create-path1 {
     display: inline;
     font-size: 0.88em;
     bottom: 5px;
-    width: 100%;
+    width: 85%;
 }
 
-#button-load-browse {
+#input-create-path2 {
+    display: inline;
+    font-size: 0.88em;
+    bottom: 5px;
+    width: 85%;
+}
+
+#button-load-browse1 {
     position: relative;
     display: inline;
     bottom: 5px;
     left: 15px;
 }
 
-#input-load-password {
-    font-size: 1em;
-    width: 90%;
+#button-load-browse2 {
+    position: relative;
+    display: inline;
+    bottom: 5px;
+    left: 15px;
 }
 
 #button-load-load {

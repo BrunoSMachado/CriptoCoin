@@ -3,15 +3,27 @@
         <div class="div-title">
             <h2 class="title">Load a wallet</h2>
         </div>
-        <div class="div-input">
-            <h4 class="text-spaced">Insira Chave Pública:</h4>
-            <input class="text-block" id="input-load-public"></input>
+        <div class="div-fields">
+            <h4 class="text-spaced">Selecione ficheiro da chave pública</h4>
+            <input class="text-block" id="input-create-path1" style="padding: 12px 8px;"></input>
+            <button type="button" class="button-green" id="button-create-browse1"><i class="far fa-folder-open"></i></button>
+
+
+            <h4 class="text-spaced">Selecione ficheira da chave privada</h4>
+            <input class="text-block" id="input-create-path2" style="padding: 12px 8px;"></input>
+            <button type="button" class="button-green" id="button-create-browse2"><i class="far fa-folder-open"></i></button>
+
+            <span class="text-spaced-error" id="text-load-error"></span>
+            <span class="text-spaced-warning" id="text-load-warning"></span>
+            <span class="text-spaced-success" id="text-load-success"></span>
+
+        </div>
+
+        <div>
             <span class="text-spaced-error" id="text-load-error"></span>
             <span class="text-spaced-warning" id="text-load-warning"></span>
             <span class="text-spaced-success" id="text-load-success"></span>
         </div>
-
-
         <div class="div-buttons">
             <button type="button" class="button-green" id="button-load-load">Load</button>
             <button type="button" class="button-red" data-section="section-overview" id="button-load-cancel">Cancel</button>

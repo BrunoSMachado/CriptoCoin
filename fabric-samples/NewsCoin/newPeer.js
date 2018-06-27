@@ -12,6 +12,7 @@ var Fabric_Client = require('fabric-client');
 var path = require('path');
 var util = require('util');
 var os = require('os');
+var fs = require('fs');
 
 //
 var fabric_client = new Fabric_Client();
@@ -58,11 +59,14 @@ Fabric_Client.newDefaultKeyValueStore({ path: store_path
 	// createCar chaincode function - requires 5 args, ex: args: ['CAR12', 'Honda', 'Accord', 'Black', 'Tom'],
 	// changeCarOwner chaincode function - requires 2 args , ex: args: ['CAR10', 'Dave'],
 	// must send the proposal to endorsing peers
+
+	let pubK = fs.readFileSync(process.argv[2] ,'utf8');
+
 	var request = {
 		//targets: let default to the peer assigned to the client
 		chaincodeId: 'NewsCoin',
 		fcn: 'createPeer',
-		args: [process.argv[2]],
+		args: [pubK],
 		chainId: 'mychannel',
 		txId: tx_id
 	};

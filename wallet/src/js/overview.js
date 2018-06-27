@@ -8,8 +8,11 @@ const teste = require('./connection.js');
 function refreshA(){
 	setTimeout( function() {
 	  $.get('../../chave.pub', function(data){
-      teste.query(data)
-      $('#wallet-adress').text(data)
+			let temp = data.slice(31)
+			let key = temp.substring(0,145)
+			let nova = key.substring(0,72) + key.substring(73,145)
+			teste.query(nova)
+      $('#wallet-adress').text(nova)
     });
 	  refreshA();
 	}, 10000);
@@ -18,7 +21,7 @@ function refreshA(){
 function refreshB(){
 	setTimeout( function() {
     $.get('../../balance.txt', function(data) {
-      $('#balance-available').text(data.slice(9,-1));
+      $('#balance-available').text(data);
     });
 		refreshB();
 	}, 10000);
@@ -26,14 +29,18 @@ function refreshB(){
 
 $(document).ready( function(){
 	$.get('../../balance.txt', function(data) {
-    $('#balance-available').text(data.slice(9,-1));
+    $('#balance-available').text(data);
   });
 	refreshB();
 });
 
 $(document).ready( function(){
   $.get('../../chave.pub', function(data){
-    $('#wallet-adress').text(data)
+		let temp = data.slice(31)
+		let key = temp.substring(0,145)
+		let nova = key.substring(0,72) + key.substring(73,145)
+		teste.query(nova)
+    $('#wallet-adress').text(nova)
   });
 	refreshA();
 });

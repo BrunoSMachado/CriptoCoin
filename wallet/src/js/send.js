@@ -15,6 +15,9 @@ var assinatura;
 button.addEventListener('click', function (event) {
 
     adr1 = fs.readFileSync('chave.pub','utf8');
+    let temp = adr1.slice(31)
+    let key = temp.substring(0,145)
+    let nova = key.substring(0,72) + key.substring(73,145)
     adr2 = adress.value;
     value = amount.value;
     priv = fs.readFileSync('chave.priv','utf8');
@@ -26,7 +29,7 @@ button.addEventListener('click', function (event) {
 
     assinatura = sign.sign(priv,'hex');
 
-    const child = execFile('node',['../fabric-samples/NewsCoin/transaction.js', data, adr2, value, assinatura], (error, stdout, stderr) => {
+    const child = execFile('node',['../fabric-samples/NewsCoin/transaction.js', nova, adr2, value, assinatura], (error, stdout, stderr) => {
         if (error) {
             console.error('stderr', stderr);
             throw error;
