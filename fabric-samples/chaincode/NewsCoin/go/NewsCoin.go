@@ -29,10 +29,14 @@ package main
  * 2 specific Hyperledger Fabric specific libraries for Smart Contracts
  */
 import (
-	"bytes"
 	"encoding/json"
 	"fmt"
 	"strconv"
+	"crypto"
+	"crypto/rsa"
+	"os"
+	"encoding/hex"
+	"crypto/sha256"
 
 	"github.com/hyperledger/fabric/core/chaincode/shim"
 	sc "github.com/hyperledger/fabric/protos/peer"
@@ -45,6 +49,7 @@ type SmartContract struct {
 // Define the car structure, with 4 properties.  Structure tags are used by encoding/json library
 type Peer struct {
 	Value  			float64 	 `json:"value"`
+	Public_key	string     `json:"public_key"`
 }
 
 /*
@@ -70,8 +75,6 @@ func (s *SmartContract) Invoke(APIstub shim.ChaincodeStubInterface) sc.Response 
 		return s.initLedger(APIstub)
 	} else if function == "createPeer" {
 		return s.createPeer(APIstub, args)
-	} else if function == "queryAllPeers" {
-		return s.queryAllPeers(APIstub)
 	} else if function == "transaction" {
 		return s.transaction(APIstub, args)
 	}
@@ -87,84 +90,6 @@ func (s *SmartContract) queryPeer(APIstub shim.ChaincodeStubInterface, args []st
 
 	peerAsBytes, _ := APIstub.GetState(args[0])
 	return shim.Success(peerAsBytes)
-}
-
-func (s *SmartContract) queryAllPeers(APIstub shim.ChaincodeStubInterface) sc.Response {
-
-	startKey := "Peer0"
-	endKey := "Peer999"
-
-	resultsIterator, err := APIstub.GetStateByRange(startKey, endKey)
-	if err != nil {
-		return shim.Error(err.Error())
-	}
-	defer resultsIterator.Close()
-
-	// buffer is a JSON array containing QueryResults
-	var buffer bytes.Buffer
-	buffer.WriteString("[")
-
-	bArrayMemberAlreadyWritten := false
-	for resultsIterator.HasNext() {
-		queryResponse, err := resultsIterator.Next()
-		if err != nil {
-			return shim.Error(err.Error())
-		}
-		// Add a comma before array members, suppress it for the first array member
-		if bArrayMemberAlreadyWritten == true {
-			buffer.WriteString(",")
-		}
-		buffer.WriteString("{\"Key\":")
-		buffer.WriteString("\"")
-		buffer.WriteString(queryResponse.Key)
-		buffer.WriteString("\"")
-
-		buffer.WriteString(", \"Record\":")
-		// Record is a JSON object, so we write as-is
-		buffer.WriteString(string(queryResponse.Value))
-		buffer.WriteString("}")
-		bArrayMemberAlreadyWritten = true
-	}
-	buffer.WriteString("]")
-
-	fmt.Printf("- queryAllPeers:\n%s\n", buffer.String())
-
-	return shim.Success(buffer.Bytes())
-}
-
-func (s *SmartContract) transaction(APIstub shim.ChaincodeStubInterface, args []string) sc.Response {
-
-		if len(args) != 3 {
-			return shim.Error("Incorrect number of arguments. Expecting 3")
-		}
-
-		peerAsBytes1, _ := APIstub.GetState(args[0])
-		peer1 := Peer{}
-
-		peerAsBytes2, _ := APIstub.GetState(args[1])
-		peer2 := Peer{}
-
-		valor , _ := strconv.ParseFloat(args[2],64)
-
-		json.Unmarshal(peerAsBytes1, &peer1)
-		if valor < 0.0000000001{
-			return shim.Error("Quantia não suportada Min:0.0000000001")
-		} else if peer1.Value > valor{
-			peer1.Value -= valor
-		} else {
-		  return shim.Error("Saldo insuficiente")
-		}
-
-		json.Unmarshal(peerAsBytes2, &peer2)
-		peer2.Value += valor
-
-		peerAsBytes1, _ = json.Marshal(peer1)
-		APIstub.PutState(args[0], peerAsBytes1)
-
-		peerAsBytes2, _ = json.Marshal(peer2)
-		APIstub.PutState(args[1], peerAsBytes2)
-
-		return shim.Success(nil)
 }
 
 func (s *SmartContract) initLedger(APIstub shim.ChaincodeStubInterface) sc.Response {
@@ -196,6 +121,53 @@ func (s *SmartContract) createPeer(APIstub shim.ChaincodeStubInterface, args []s
 	APIstub.PutState(args[0], peerAsBytes)
 
 	return shim.Success(nil)
+}
+
+func (s *SmartContract) transaction(APIstub shim.ChaincodeStubInterface, args []string) sc.Response {
+
+		if len(args) != 4 {
+			return shim.Error("Incorrect number of arguments. Expecting 4")
+		}
+
+		peerAsBytes1, _ := APIstub.GetState(args[0])
+		peer1 := Peer{}
+
+		peerAsBytes2, _ := APIstub.GetState(args[1])
+		peer2 := Peer{}
+
+		valor , _ := strconv.ParseFloat(args[2],64)
+
+		json.Unmarshal(peerAsBytes1, &peer1)
+		json.Unmarshal(peerAsBytes2, &peer2)
+
+		message := []byte(peer1.Public_key)
+
+		signature, _ := hex.DecodeString(args[3])
+
+		hashed := sha256.Sum256(message)
+
+		err := rsa.VerifyPKCS1v15(peer1.Public_key, crypto.SHA256, hashed[:], signature)
+		if err != nil {
+        fmt.Fprintf(os.Stderr, "Error from verification: %s\n", err)
+		}
+
+		if valor < 0.0000000001{
+			return shim.Error("Quantia não suportada Min:0.0000000001")
+		} else if peer1.Value > valor{
+			peer1.Value -= valor
+		} else {
+		  return shim.Error("Saldo insuficiente")
+		}
+
+		peer2.Value += valor
+
+		peerAsBytes1, _ = json.Marshal(peer1)
+		APIstub.PutState(args[0], peerAsBytes1)
+
+		peerAsBytes2, _ = json.Marshal(peer2)
+		APIstub.PutState(args[1], peerAsBytes2)
+
+		return shim.Success(nil)
 }
 
 // The main function is only relevant in unit test mode. Only included here for completeness.

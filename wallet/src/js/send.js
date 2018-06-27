@@ -1,32 +1,38 @@
 const execFile = require('child_process').execFile;
-const fs = require('fs')
+const fs = require('fs');
 
 const button = document.getElementById('button-send-send')
 const adress = document.getElementById('input-send-address')
 const amount = document.getElementById('input-send-amount')
 const sucess = document.getElementById('text-send-success')
 
+var adr1;
 var adr2;
 var value;
+var priv;
+var assinatura;
 
 button.addEventListener('click', function (event) {
 
-  fs.readFile('chave.pub', 'utf-8', function (err,data){
-    if(err){
-      console.log("Ocorreu um erro a ler a chave pública");
-    }
-    adr2 = adress.value
-    value = amount.value
+    adr1 = fs.readFileSync('chave.pub','utf8');
+    adr2 = adress.value;
+    value = amount.value;
+    priv = fs.readFileSync('chave.priv','utf8');
 
-    const child = execFile('node',['../fabric-samples/NewsCoin/transaction.js', data, adr2, value], (error, stdout, stderr) => {
+    const crypto = require('crypto');
+    const sign = crypto.createSign('SHA256');
+
+    sign.update(adr1);
+
+    assinatura = sign.sign(priv,'hex');
+
+    const child = execFile('node',['../fabric-samples/NewsCoin/transaction.js', data, adr2, value, assinatura], (error, stdout, stderr) => {
         if (error) {
             console.error('stderr', stderr);
             throw error;
         }
         console.log(stdout);
     });
-
-  });
 
     sucess.innerHTML = 'Transação bem sucedida'
 });
