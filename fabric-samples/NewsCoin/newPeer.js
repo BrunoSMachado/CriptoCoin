@@ -12,16 +12,15 @@ var Fabric_Client = require('fabric-client');
 var path = require('path');
 var util = require('util');
 var os = require('os');
-var fs = require('fs');
 
 //
 var fabric_client = new Fabric_Client();
 
 // setup the fabric network
 var channel = fabric_client.newChannel('mychannel');
-var peer = fabric_client.newPeer('grpc://localhost:7051');
+var peer = fabric_client.newPeer('grpc://35.189.85.113:7051');
 channel.addPeer(peer);
-var order = fabric_client.newOrderer('grpc://localhost:7050')
+var order = fabric_client.newOrderer('grpc://35.189.85.113:7050')
 channel.addOrderer(order);
 
 //
@@ -60,13 +59,11 @@ Fabric_Client.newDefaultKeyValueStore({ path: store_path
 	// changeCarOwner chaincode function - requires 2 args , ex: args: ['CAR10', 'Dave'],
 	// must send the proposal to endorsing peers
 
-	let pubK = fs.readFileSync(process.argv[2] ,'utf8');
-
 	var request = {
 		//targets: let default to the peer assigned to the client
 		chaincodeId: 'NewsCoin',
 		fcn: 'createPeer',
-		args: [pubK],
+		args: [process.argv[2]],
 		chainId: 'mychannel',
 		txId: tx_id
 	};
@@ -107,7 +104,7 @@ Fabric_Client.newDefaultKeyValueStore({ path: store_path
 		// get an eventhub once the fabric client has a user assigned. The user
 		// is required bacause the event registration must be signed
 		let event_hub = fabric_client.newEventHub();
-		event_hub.setPeerAddr('grpc://localhost:7053');
+		event_hub.setPeerAddr('grpc://35.189.85.113:7053');
 
 		// using resolve the promise so that result status may be processed
 		// under the then clause rather than having the catch clause process

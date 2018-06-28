@@ -8,7 +8,6 @@
 const shim = require('fabric-shim');
 const util = require('util');
 const crypto = require('crypto');
-const fs = require('fs')
 
 let Chaincode = class {
 

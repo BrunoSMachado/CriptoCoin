@@ -11,6 +11,7 @@ function refreshA(){
 			let temp = data.slice(31)
 			let key = temp.substring(0,145)
 			let nova = key.substring(0,72) + key.substring(73,145)
+			console.log(nova)
 			teste.query(nova)
       $('#wallet-adress').text(nova)
     });

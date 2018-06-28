@@ -31,13 +31,6 @@ button.addEventListener('click', function (event) {
 
     assinatura = sign.sign(priv,'base64');
 
-    const verify = crypto.createVerify('SHA256');
-
-    verify.write(adr1);
-    verify.end();
-
-    console.log(verify.verify(adr1, assinatura, 'base64'));
-
 
     const child = execFile('node',['../fabric-samples/NewsCoin/transaction.js', nova, adr2, value, assinatura], (error, stdout, stderr) => {
         if (error) {

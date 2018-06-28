@@ -17,15 +17,16 @@ createButton.addEventListener('click', function (event) {
     fs.writeFileSync('chave.priv', pair.private,'utf8');
     fs.writeFileSync('chave.pub', pair.public,'utf8');
 
-    let path = '../../wallet/chave.pub'
 
-    textSuccess.innerHTML = "Criadas chaves com sucesso"
 
-    const child = execFile('node',['../fabric-samples/NewsCoin/newPeer.js', path], (error, stdout, stderr) => {
+
+    const child = execFile('node',['../fabric-samples/NewsCoin/newPeer.js', pair.public], (error, stdout, stderr) => {
         if (error) {
             console.error('stderr', stderr);
             throw error;
         }
         console.log(stdout);
     });
+
+    textSuccess.innerHTML = "Criadas chaves com sucesso"
 });
